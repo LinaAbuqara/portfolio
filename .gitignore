@@ -1,4 +1,13 @@
+# Системні файли
 .DS_Store
 Thumbs.db
-*.tmp
+
+# Файли редакторів
 .vscode/
+.idea/
+*.suo
+*.user
+
+# Тимчасові файли
+*.tmp
+*.log
