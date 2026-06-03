@@ -1,0 +1,639 @@
+/* =====================================================================
+   CSS Custom Properties (змінні теми) — Лаба 3
+   ===================================================================== */
+:root {
+  /* Кольори (демонстрація трьох форматів: HEX, RGB, HSL) */
+  --color-primary: #6c5ce7;            /* HEX */
+  --color-primary-dark: rgb(88, 74, 209); /* RGB */
+  --color-secondary: hsl(168, 76%, 42%); /* HSL */
+  --color-accent: #fd79a8;
+  --color-bg: #f5f6fa;
+  --color-surface: #ffffff;
+  --color-text: #2d3436;
+  --color-text-muted: hsl(210, 9%, 45%);
+  --color-border: #e1e4e8;
+
+  /* Шрифти з fallback-стеком */
+  --font-main: 'Roboto', Arial, Helvetica, sans-serif;
+  --font-heading: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+
+  /* Відступи */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Інше */
+  --border-radius: 10px;
+  --transition-speed: 0.3s;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --max-width: 1200px;
+}
+
+/* =====================================================================
+   Загальні стилі / скидання
+   ===================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* Адаптивні зображення — Лаба 3 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Гнучка типографіка через clamp() — Лаба 3 */
+h1,
+.page-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin: 0 0 var(--spacing-md);
+}
+
+h2,
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  margin: 0 0 var(--spacing-md);
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  margin: 0 0 var(--spacing-sm);
+}
+
+p {
+  margin: 0 0 var(--spacing-md);
+}
+
+/* Декоративна лінія під заголовком секції — псевдоелемент (Лаба 2) */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: var(--spacing-xs);
+  background-color: var(--color-secondary);
+  border-radius: 2px;
+}
+
+/* Анімація появи елементів — Лаба 3 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section,
+.hero {
+  animation: fadeIn 0.6s ease both;
+}
+
+/* =====================================================================
+   Макет сторінки на CSS Grid (Mobile First) — Лаба 3
+   ===================================================================== */
+.page {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "content"
+    "sidebar"
+    "footer";
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.footer  { grid-area: footer; }
+
+/* =====================================================================
+   Хедер та навігація (Flexbox + гамбургер) — Лаби 2, 3
+   ===================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Прихований чекбокс, що керує гамбургер-меню (CSS-only) */
+.menu-toggle {
+  display: none;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: var(--color-text);
+  transition: all var(--transition-speed) ease;
+}
+
+/* Прибрати маркери списку, горизонтальне меню */
+.nav-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* Розгортання меню при кліку на гамбургер (мобільні) */
+.menu-toggle:checked ~ .nav-list {
+  display: flex;
+}
+
+/* Стилізація посилань навігації + transition (Лаба 3) */
+.nav-link {
+  display: block;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  background-color: rgba(108, 92, 231, 0.08);
+}
+
+.nav-link:active {
+  background-color: rgba(108, 92, 231, 0.18);
+}
+
+.nav-link:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* =====================================================================
+   Бічна панель (sidebar)
+   ===================================================================== */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-title {
+  color: var(--color-primary);
+}
+
+.sidebar-list {
+  margin: var(--spacing-sm) 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Псевдоелемент: маркер перед пунктом списку (Лаба 2) */
+.sidebar-list li {
+  position: relative;
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
+}
+
+.sidebar-list li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: var(--color-secondary);
+  font-weight: 700;
+}
+
+/* =====================================================================
+   Головна секція / контент
+   ===================================================================== */
+.hero {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border-left: 6px solid var(--color-primary);
+}
+
+.hero-greeting {
+  font-size: 1.25rem;
+}
+
+/* Цитата з декоративними лапками — псевдоелементи (Лаба 2) */
+.quote {
+  position: relative;
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: rgba(0, 206, 168, 0.08);
+  border-radius: var(--border-radius);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.quote::before {
+  content: "«";
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-right: var(--spacing-xs);
+}
+
+.quote::after {
+  content: "»";
+  font-size: 2rem;
+  color: var(--color-secondary);
+}
+
+.quote cite {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.goals-list {
+  padding-left: var(--spacing-lg);
+}
+
+.goals-list li {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Сітка карток (auto-fit + minmax) — Лаба 3 */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* Картка з ефектом підняття + relative/absolute бейдж (Лаби 2, 3) */
+.media-card {
+  position: relative;
+  margin: 0;
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.media-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.media-card figcaption {
+  margin-top: var(--spacing-sm);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* Декоративний бейдж, позиціонований відносно картки (relative + absolute) */
+.media-card::after {
+  content: "★";
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.profile-img {
+  width: 100%;
+  border-radius: var(--border-radius);
+}
+
+.audio-player {
+  width: 100%;
+}
+
+/* Список означень (Про мене) */
+.info-list dt {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.info-list dd {
+  margin: 0 0 var(--spacing-sm);
+}
+
+/* =====================================================================
+   Таблиця — Лаба 2
+   ===================================================================== */
+.table-wrapper {
+  overflow-x: auto; /* горизонтальний скрол на вузьких екранах */
+}
+
+.skills-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.skills-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--spacing-sm) 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.skills-table th,
+.skills-table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+/* Заголовок таблиці — інший фон та жирний шрифт */
+.skills-table th {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Зебра — чергування фону рядків */
+.skills-table tbody tr:nth-child(even) {
+  background-color: rgba(108, 92, 231, 0.06);
+}
+
+/* Підсвічування рядка при наведенні */
+.skills-table tbody tr:hover {
+  background-color: rgba(0, 206, 168, 0.12);
+}
+
+/* =====================================================================
+   Форма — Лаба 2
+   ===================================================================== */
+.contact-form {
+  max-width: 560px;
+}
+
+.form-group {
+  margin: 0 0 var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-surface);
+}
+
+.form-group legend {
+  padding: 0 var(--spacing-sm);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.contact-form label {
+  display: block;
+  margin: var(--spacing-md) 0 var(--spacing-xs);
+  font-weight: 500;
+}
+
+.field-label {
+  margin: var(--spacing-md) 0 var(--spacing-xs);
+  font-weight: 500;
+}
+
+/* Селектор атрибута — текстові поля (Лаба 2) */
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Стан фокусу полів */
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
+}
+
+/* Радіо / чекбокси */
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.choice input {
+  accent-color: var(--color-primary);
+  width: auto;
+}
+
+.consent {
+  margin: var(--spacing-md) 0 var(--spacing-lg);
+}
+
+/* Кнопка з transition (Лаба 3) */
+.btn {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-xl);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* =====================================================================
+   Текстові посилання (LVHA + focus) — Лаба 2
+   ===================================================================== */
+.text-link:link    { color: var(--color-primary); }
+.text-link:visited { color: var(--color-primary-dark); }
+.text-link:hover   { color: var(--color-secondary); text-decoration: underline; }
+.text-link:active  { color: var(--color-accent); }
+.text-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* =====================================================================
+   Футер та кнопка «Нагору» (fixed) — Лаба 2
+   ===================================================================== */
+.footer {
+  padding: var(--spacing-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Кнопка «Нагору», зафіксована у правому нижньому куті */
+.back-to-top {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
+  z-index: 200;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+}
+
+.back-to-top:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-4px);
+}
+
+.back-to-top:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* =====================================================================
+   Медіа-запити (Mobile First) — Лаба 3
+   ===================================================================== */
+
+/* Планшет: 768px і більше — горизонтальне меню, ховаємо гамбургер */
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    gap: var(--spacing-sm);
+    align-items: center;
+  }
+}
+
+/* Десктоп: 1024px і більше — двоколонковий grid із бічною панеллю */
+@media (min-width: 1024px) {
+  .page {
+    grid-template-areas:
+      "header header"
+      "sidebar content"
+      "footer footer";
+    grid-template-columns: 260px 1fr;
+  }
+
+  .sidebar .card {
+    position: sticky;
+    top: 100px;
+  }
+}

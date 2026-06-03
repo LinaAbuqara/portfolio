@@ -6,55 +6,82 @@
   <meta name="description" content="Головна сторінка мого портфоліо">
   <meta name="author" content="Ліна Абукаре">
   <title>Головна — Портфоліо</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Ліна Абукаре</h1>
-    <nav>
-      <ul>
-        <li>Головна</li>
-        <li><a href="about.html">Про мене</a></li>
-        <li><a href="contacts.html">Контакти</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="page" id="top">
 
-  <main>
-    <section>
-      <p>Привіт! Я — <strong>Ліна</strong>.</p>
-      <p>Цей сайт — моє портфоліо, створене на <em>чистому HTML</em>.</p>
+    <header class="header">
+      <a href="index.html" class="logo">Ліна Абукаре</a>
+      <nav class="nav">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger" aria-label="Відкрити меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link active">Головна</a></li>
+          <li><a href="about.html" class="nav-link">Про мене</a></li>
+          <li><a href="contacts.html" class="nav-link">Контакти</a></li>
+        </ul>
+      </nav>
+    </header>
 
-      <blockquote>«Код — це поезія.» — WordPress</blockquote>
-
-      <h2>Мої цілі</h2>
-      <ul>
-        <li>Вивчити HTML та CSS</li>
-        <li>Освоїти GitHub</li>
-        <li>Скласти сесію</li>
-      </ul>
-
-      <figure>
-        <img src="images/photo.jpg" alt="Моє фото" width="200">
-        <figcaption>Це я!</figcaption>
-      </figure>
-
-      <figure>
-        <figcaption>Моя улюблена музика</figcaption>
-        <audio controls>
-          <source src="audio/music.mp3" type="audio/mpeg">
-          Ваш браузер не підтримує аудіо.
-        </audio>
-      </figure>
-
-    </section>
-
-    <aside>
-      <p>Цікавий факт: це мій перший сайт!</p>
+    <aside class="sidebar">
+      <div class="card sidebar-card">
+        <h3 class="sidebar-title">Про сайт</h3>
+        <p>Цікавий факт: це мій перший сайт!</p>
+        <ul class="sidebar-list">
+          <li>Чистий HTML &amp; CSS</li>
+          <li>Адаптивна верстка</li>
+          <li>Без фреймворків</li>
+        </ul>
+      </div>
     </aside>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 Ліна Абукаре. Всі права захищені.</p>
-  </footer>
+    <main class="content">
+      <section class="hero" id="hero">
+        <p class="hero-greeting">Привіт! Я — <strong>Ліна</strong>.</p>
+        <p>Цей сайт — моє портфоліо, створене на <em>чистому HTML</em> та стилізоване вручну за допомогою CSS.</p>
+        <blockquote class="quote">Код — це поезія.<cite>WordPress</cite></blockquote>
+      </section>
+
+      <section class="section" id="goals">
+        <h2 class="section-title">Мої цілі</h2>
+        <ul class="goals-list">
+          <li>Вивчити HTML та CSS</li>
+          <li>Освоїти GitHub</li>
+          <li>Скласти сесію</li>
+        </ul>
+      </section>
+
+      <section class="section" id="media">
+        <h2 class="section-title">Трохи про мене</h2>
+        <div class="media-grid">
+          <figure class="media-card">
+            <img src="images/photo.jpg" alt="Моє фото" class="profile-img">
+            <figcaption>Це я!</figcaption>
+          </figure>
+          <figure class="media-card">
+            <figcaption>Моя улюблена музика</figcaption>
+            <audio controls class="audio-player">
+              <source src="audio/music.mp3" type="audio/mpeg">
+              Ваш браузер не підтримує аудіо.
+            </audio>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2025 Ліна Абукаре. Всі права захищені.</p>
+      <a href="#top" class="back-to-top" aria-label="Нагору">↑</a>
+    </footer>
+
+  </div>
 </body>
 </html>
